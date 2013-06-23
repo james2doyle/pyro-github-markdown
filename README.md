@@ -7,6 +7,10 @@ Most of the work for this repo is taken from [GitHub-Flavored Markdown Comments]
 
 *All I did was just bring it all together and make it play nice with Pyro.*
 
+![write your markdown](https://raw.github.com/james2doyle/pyro-github-markdown/master/write.png)
+
+![preview your markdown](https://raw.github.com/james2doyle/pyro-github-markdown/master/preview.png)
+
 ### Usage
 
 * Install the field type as normal.
