@@ -2,4 +2,5 @@
 
 // labels
 $lang['streams:github_markdown.name']    = "Github Markdown";
-$lang['streams:github_markdown.folder_select_instructions']    = "Choose a folder containing all your images";
+$lang['streams:github_markdown.markdown']    = "Markdown";
+$lang['streams:github_markdown.preview']    = "Preview";
