@@ -1,5 +1,6 @@
 (function($){
   function renderMarkdown($elem, message, callback) {
+    $elem.html('<div class="md-loader"></div>');
     $.ajax({
       url: 'streams_core/public_ajax/field/github_markdown/md_preview',
       type: 'POST',
@@ -11,7 +12,7 @@
         }
       },
       success: function(data, textStatus, xhr) {
-        $elem.html('<div class="md-loader"></div>');
+        // $elem.html('<div class="md-loader"></div>');
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log(xhr, textStatus, errorThrown);
