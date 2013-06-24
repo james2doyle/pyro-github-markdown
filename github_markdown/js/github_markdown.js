@@ -11,7 +11,7 @@
         }
       },
       success: function(data, textStatus, xhr) {
-        $elem.val('');
+        $elem.html('<div class="md-loader"></div>');
       },
       error: function(xhr, textStatus, errorThrown) {
         console.log(xhr, textStatus, errorThrown);
