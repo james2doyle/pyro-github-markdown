@@ -66,10 +66,13 @@ class ES_GHF_Markdown_Parser extends MarkdownExtra_Parser {
     $codeblock = $this->outdent($codeblock);
     $codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
 
-        # trim leading newlines and trailing newlines
+    # trim leading newlines and trailing newlines
     $codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
-
+    if (strlen($matches[2])) {
     $codeblock = "<pre class='prettyprint'><code class='lang-$matches[2]'>$codeblock\n</code></pre>";
+    } else {
+      $codeblock = "<pre><code>$codeblock\n</code></pre>";
+    }
     return "\n\n".$this->hashBlock($codeblock)."\n\n";
   }
 }
