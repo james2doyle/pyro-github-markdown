@@ -23,23 +23,53 @@ class ES_GHF_Markdown_Parser extends MarkdownExtra_Parser {
   }
 
   /**
-   * Overload to support ```-fenced code blocks
-   * https://github.com/github/github-flavored-markdown/blob/gh-pages/index.md#fenced-code-blocks
+   * Overload to support ```[lang] code blocks
    */
   function doCodeBlocks( $text ) {
-    $text = preg_replace_callback(
-      '#'       .
-        '^```'    . // Fenced code block
-        '[^\n]*$' . // No language-specific support yet
-        '\n'      . // Newline
-        '(.+?)'   . // Actual code here
-        '\n'      . // Last newline
-        '^```$'   . // End of block
-        '#ms',      // Multiline mode + dot matches newlines
-        array( $this, '_doCodeBlocks_callback' ),
-        $text
-        );
+    $text = preg_replace_callback('{
+      (?:\n|\A)
+        # 1: Opening marker
+      (
+        `{3,} # Marker: three tilde or more.
+        )
+      [ ]*  # Optional whitspace following marker.
+          # 2: Optional language
+      (
+        [a-zA-Z0-9_-]+  # Alphanumeric with hyphen and underscore allowed
+        )?
+      [ ]* \n # Optional whitespace and mandatory newline following marker and optional language.
+
+          # 2: Content
+      (
+        (?>
+          (?!\1 [ ]* \n)  # Not a closing marker.
+          .*\n+
+          )+
+      )
+
+          # Closing marker.
+      \1 [ ]* \n
+    }xm',
+    array( $this, '_doCodeBlocks_callback' ), $text);
 
     return parent::doCodeBlocks( $text );
+  }
+  /**
+   * Overload to support <pre class='prettyprint'><code class='lang-{lang}'> code blocks
+   * taken from the original GH Markdown PHP project
+   * added by James Doyle (james2doyle)
+   * https://github.com/clevercherry/php-markdown/blob/0f50106a9e2aac6f8defb4b28f3f9fb956d13edd/markdown.php#L2555-L2597
+   */
+  function _doCodeBlocks_callback($matches) {
+    $codeblock = $matches[3];
+
+    $codeblock = $this->outdent($codeblock);
+    $codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
+
+        # trim leading newlines and trailing newlines
+    $codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
+
+    $codeblock = "<pre class='prettyprint'><code class='lang-$matches[2]'>$codeblock\n</code></pre>";
+    return "\n\n".$this->hashBlock($codeblock)."\n\n";
   }
 }
