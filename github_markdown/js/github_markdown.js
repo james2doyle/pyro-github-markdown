@@ -25,7 +25,6 @@
     var $list = $this.find('li');
     var $writeArea = $this.find('.md-write-area');
     var $previewArea = $this.find('.md-preview-area');
-    console.log($this, slug, $list, $writeArea, $previewArea);
     $list.on('click', function(e) {
       e.preventDefault();
       $list.removeClass('ui-state-active');
@@ -38,6 +37,7 @@
       if (target == ('#md-preview-'+slug)) {
         renderMarkdown($previewArea, $writeArea.val(), function(res) {
           $previewArea.html(res);
+          prettyPrint();
         });
       }
       return false;
