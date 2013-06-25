@@ -11,6 +11,11 @@
   border: 1px solid #EFEFEF;
 }
 
+.md-preview-area pre.prettyprint {
+  background: none;
+  border: none;
+}
+
 .md-loader {
   width: 50px;
   height: 50px;
