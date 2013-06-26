@@ -1,6 +1,20 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+# dirty way to include the globals for the markdown class
+# Optional title attribute for footnote links and backlinks.
+@define( 'MARKDOWN_FN_LINK_TITLE',         "" );
+@define( 'MARKDOWN_FN_BACKLINK_TITLE',     "" );
 
-include('markdown.php');
+# Optional class attribute for footnote links and backlinks.
+@define( 'MARKDOWN_FN_LINK_CLASS',         "" );
+@define( 'MARKDOWN_FN_BACKLINK_CLASS',     "" );
+
+# Optional class prefix for fenced code block.
+@define( 'MARKDOWN_CODE_CLASS_PREFIX',     "" );
+
+# Class attribute for code blocks goes on the `code` tag;
+# setting this to true will put attributes on the `pre` tag instead.
+@define( 'MARKDOWN_CODE_ATTR_ON_PRE',   false );
+
 // From `extra` branch of https://github.com/michelf/php-markdown/
 include('markdown-extra.php');
 /**
@@ -32,25 +46,25 @@ class ES_GHF_Markdown_Parser extends MarkdownExtra_Parser {
       (
         `{3,} # Marker: three tilde or more.
         )
-      [ ]*  # Optional whitspace following marker.
+    [ ]*  # Optional whitspace following marker.
           # 2: Optional language
-      (
-        [a-zA-Z0-9_-]+  # Alphanumeric with hyphen and underscore allowed
-        )?
-      [ ]* \n # Optional whitespace and mandatory newline following marker and optional language.
+    (
+      [a-zA-Z0-9_-]+  # Alphanumeric with hyphen and underscore allowed
+      )?
+    [ ]* \n # Optional whitespace and mandatory newline following marker and optional language.
 
           # 2: Content
-      (
-        (?>
-          (?!\1 [ ]* \n)  # Not a closing marker.
-          .*\n+
-          )+
-      )
+    (
+      (?>
+        (?!\1 [ ]* \n)  # Not a closing marker.
+        .*\n+
+        )+
+    )
 
           # Closing marker.
-      \1 [ ]* \n
-    }xm',
-    array( $this, '_doCodeBlocks_callback' ), $text);
+    \1 [ ]* \n
+  }xm',
+  array( $this, '_doCodeBlocks_callback' ), $text);
 
     return parent::doCodeBlocks( $text );
   }
@@ -69,7 +83,7 @@ class ES_GHF_Markdown_Parser extends MarkdownExtra_Parser {
     # trim leading newlines and trailing newlines
     $codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
     if (strlen($matches[2])) {
-    $codeblock = "<pre class='prettyprint'><code class='lang-$matches[2]'>$codeblock\n</code></pre>";
+      $codeblock = "<pre class='prettyprint'><code class='lang-$matches[2]'>$codeblock\n</code></pre>";
     } else {
       $codeblock = "<pre><code>$codeblock\n</code></pre>";
     }
