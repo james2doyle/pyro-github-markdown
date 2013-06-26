@@ -12,7 +12,7 @@ class Field_github_markdown
 {
 	public $field_type_slug    = 'github_markdown';
 	public $db_col_type        = 'text';
-	public $version            = '1.3.0';
+	public $version            = '1.4.0';
 	public $author             = array('name'=>'James Doyle', 'url'=>'http://github.com/james2doyle/pyro-github-markdown');
 	// public $custom_parameters  = array('folder_select');
 
