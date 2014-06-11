@@ -35,11 +35,11 @@ Based on [Michel Fortin's PHP markdown library](https://github.com/michelf/php-m
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-```css
+\`\`\`css
 .container {
   background: red;
 }
-```
+\`\`\`
 
 **so much fun!!**
 ```
